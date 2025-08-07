@@ -17,13 +17,17 @@ app.get("/api/v1/products", (req, res) => {
 //gets and returns json with a specific product that was matched with ID
 app.get("/api/v1/products/:productID", (req, res) => {
   const idToFind = parseInt(req.params.productID);
+
   if (isNaN(idToFind)) {
-    res.status(404).send("That product was not found.");
+    return res.status(404).send("That product was not found.");
   }
-  if (idToFind == 0 || idToFind > products.length) {
-    res.status(404).send("That product was not found.");
+
+  const product = products.find((p) => p.id == idToFind)
+
+  if (!product) {
+    return res.status(404).send("That product was not found.");
   }
-  const product = products.find((p) => p.id == idToFind);
+
   res.json(product);
 });
 
