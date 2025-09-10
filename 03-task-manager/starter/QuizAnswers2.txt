@@ -1,0 +1,13 @@
+1. In this lesson, I created a middleware function called asyncWrapper because all of the controller
+functions were following the same try catch format so it got redundant. We wanted something that would keep
+the code clean and consistent while providing an opportunity to simplify error handling.
+
+2. 
+const getTask = asyncWrapper(async (req, res, next) => {  
+  const { id: taskID } = req.params;  
+  const task = await Task.findOne({ _id: taskID });  
+  if (!task) {  
+    next(new CustomAPIError('No task found with id: ${taskID}', 404))  
+  }  
+  res.status(200).json({ task });  
+});  
